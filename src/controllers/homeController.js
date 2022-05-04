@@ -1,5 +1,6 @@
 import { json } from 'express/lib/response';
 import db from '../models/index';
+import CRUDservices from '../services/CRUDsevices';
 
 let getHomePage = async (req, res) => {
     try {
@@ -18,11 +19,29 @@ let getAboutPage = (req, res) => {
     return res.render('test/about.ejs');
 }
 
-// object: {
-//     key: '',
-//     value: ''
-// }
+
+let getCRUD = (req, res) => {
+    return res.render('crud.ejs');
+}
+
+let postCRUD = async (req, res) => {
+    let message = await CRUDservices.createNewUser(req.body);
+    console.log(message);
+    return res.send('gửi thành công');
+}
+
+let displaygetCRUD = async (req, res) => {
+    let data = await CRUDservices.getUser();
+    return res.render('displaytableCRUD.ejs', {
+        dataTable: data
+    });
+}
+
+
 module.exports = {
     getHomePage: getHomePage,
-    getAboutPage: getAboutPage
+    getAboutPage: getAboutPage,
+    getCRUD: getCRUD,
+    postCRUD: postCRUD,
+    displaygetCRUD: displaygetCRUD,
 }
