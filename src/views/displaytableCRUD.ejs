@@ -30,6 +30,7 @@
                     <th>Lastname</th>
                     <th>FirstName</th>
                     <th>Phone Number</th>
+                    <th>Options</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,7 +46,11 @@
                             <%= dataTable[i].lastName %>
                         </td>
                         <td>
-                            <%= dataTable[i].phoneNumber %>
+                            <%= dataTable[i].phonenumber %>
+                        </td>
+                        <td>
+                            <a class="btn btn-success" href="/edit-user?id=<%= dataTable[i].id %>">Edit</a>
+                            <a class="btn btn-danger" href="/delete-user?id=<%= dataTable[i].id %>">Delete</a>
                         </td>
                     </tr>
                     <% } %>

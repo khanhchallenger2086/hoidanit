@@ -50,7 +50,65 @@ let getUser = () => {
     })
 }
 
+let getUserById = (id_user) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let User = await db.User.findOne({
+                where: { id: id_user },
+                raw: true,
+            })
+            resolve(User)
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
+let updateCRUD = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let User = await db.User.findOne({
+                where: { id: data.id },
+            })
+
+            if (User) {
+                User.email = data.email;
+                User.firstName = data.firstName;
+                User.lastName = data.lastName;
+                User.phonenumber = data.phonenumber;
+                await User.save();
+
+                let allUsers = await db.User.findAll();
+                resolve(allUsers);
+            } else {
+                resolve();
+            }
+
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+let deleteUserById = (id_user) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let User = await db.User.findOne({
+                where: { id: id_user },
+            })
+            await User.destroy();
+            resolve()
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
+
 module.exports = {
     createNewUser: createNewUser,
     getUser: getUser,
+    getUserById: getUserById,
+    updateCRUD: updateCRUD,
+    deleteUserById: deleteUserById,
 }
