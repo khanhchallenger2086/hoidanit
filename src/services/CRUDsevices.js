@@ -5,8 +5,8 @@ var salt = bcrypt.genSaltSync(10);
 
 let createNewUser = async (data) => {
     return new Promise(async (resolve, reject) => {
-        let hashPasswordFromBcrypt = await hashUserPassword(data.password);
         try {
+            let hashPasswordFromBcrypt = await hashUserPassword(data.password);
             await db.User.create({
                 email: data.email,
                 password: hashPasswordFromBcrypt,
@@ -93,10 +93,12 @@ let updateCRUD = (data) => {
 let deleteUserById = (id_user) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let User = await db.User.findOne({
+            let user = await db.User.findOne({
                 where: { id: id_user },
             })
-            await User.destroy();
+            await db.User.destroy({
+                where: { id: id_user },
+            });
             resolve()
         } catch (e) {
             reject(e)
